@@ -217,8 +217,13 @@ class App extends React.Component{
       },changeEmployeeInfo:this.updateEmployeeDetails
     };
   }
-  updateEmployeeDetails=()=>{
-    this.setState({data:{id:102}})
+  updateEmployeeDetails=(value)=>{
+    this.setState(prevState => ({
+      data:{
+        ...prevState.data,
+        id:value
+      }
+    }))
   }
   render()
   {
@@ -238,6 +243,10 @@ class App extends React.Component{
 
 class Employee extends React.Component{
   static contextType=employeeContext;
+  updateDetails=()=>{
+    let dataReceived=this.refs.eid.value;;
+    this.context.changeEmployeeInfo(dataReceived);
+  }
   render()
   {
     return <div>
@@ -248,7 +257,12 @@ class Employee extends React.Component{
         </label>
       </p>
       <p>
-        <button onClick={this.context.changeEmployeeInfo}>
+        <label>
+          changeId: <input type='text' ref={"eid"} />
+        </label>
+      </p>
+      <p>
+        <button onClick={this.updateDetails}>
           Update
         </button>
       </p>
