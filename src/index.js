@@ -217,8 +217,16 @@ class App extends React.Component{
       },changeEmployeeInfo:this.updateEmployeeDetails
     };
   }
-  updateEmployeeDetails=()=>{
-    this.setState({data:{id:102}})
+  updateEmployeeDetails=(eId,eSalary,eDepartment)=>{
+    this.setState(prevState => ({
+      data:{
+        ...prevState.data,
+        id:eId,
+        salary: eSalary,
+        dept: eDepartment
+
+      }
+    }))
   }
   render()
   {
@@ -227,6 +235,16 @@ class App extends React.Component{
       <p>
         <label>
           Id: {this.state.data.id}
+        </label>
+      </p>
+      <p>
+        <label>
+          Salary: {this.state.data.salary}
+        </label>
+      </p>
+      <p>
+        <label>
+          Department: {this.state.data.dept}
         </label>
       </p>
       <employeeContext.Provider value={this.state}>
@@ -238,6 +256,22 @@ class App extends React.Component{
 
 class Employee extends React.Component{
   static contextType=employeeContext;
+  updateDetails=()=>{
+    let eId=this.refs.eid.value;
+    let eSalary=this.refs.eSal.value;
+    let eDepartment=this.refs.eDept.value;
+    this.context.changeEmployeeInfo(eId,eSalary,eDepartment);
+  }
+  clearHandler=() => {
+    let eId="";
+    let eSalary="";
+    let eDepartment="";
+    this.refs.eid.value="";
+    this.refs.eSal.value='';
+    this.refs.eDept.value='';
+    this.context.changeEmployeeInfo(eId,eSalary,eDepartment);
+
+  }
   render()
   {
     return <div>
@@ -248,9 +282,35 @@ class Employee extends React.Component{
         </label>
       </p>
       <p>
-        <button onClick={this.context.changeEmployeeInfo}>
+        <label>
+          Salary: {this.context.data.salary}
+        </label>
+      </p>
+      <p>
+        <label>
+          Department: {this.context.data.dept}
+        </label>
+      </p>
+      <p>
+        <label>
+          Change Id: <input type='text' ref={"eid"} />
+        </label>
+      </p>
+      <p>
+        <label>
+          Change Salary: <input type='text' ref={"eSal"} />
+        </label>
+      </p>
+      <p>
+        <label>
+          Change Dept: <input type='text' ref={"eDept"} />
+        </label>
+      </p>
+      <p>
+        <button onClick={this.updateDetails}>
           Update
         </button>
+        <button onClick={this.clearHandler}>Clear All</button>
       </p>
     </div>
   }
