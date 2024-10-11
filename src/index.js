@@ -202,119 +202,170 @@ import ReactDOM from 'react-dom';
 // const element=<App></App>
 // ReactDOM.render(element,document.getElementById("root"))
 
-const employeeContext=React.createContext({
-  data:'',
-  changeEmployeeInfo:()=>{}
-})
-class App extends React.Component{
-  constructor(props){
-    super(props);
-    this.state={
-      data:{
-        id:101,
-        salary:'15000',
-        dept:'Dev'
-      },changeEmployeeInfo:this.updateEmployeeDetails
-    };
-  }
-  updateEmployeeDetails=(eId,eSalary,eDepartment)=>{
-    this.setState(prevState => ({
-      data:{
-        ...prevState.data,
-        id:eId,
-        salary: eSalary,
-        dept: eDepartment
+//INTERACTION BETWEEN REACT COMPONENTS
+// const employeeContext=React.createContext({
+//   data:'',
+//   changeEmployeeInfo:()=>{}
+// })
+// class App extends React.Component{
+//   constructor(props){
+//     super(props);
+//     this.state={
+//       data:{
+//         id:101,
+//         salary:'15000',
+//         dept:'Dev'
+//       },changeEmployeeInfo:this.updateEmployeeDetails
+//     };
+//   }
+//   updateEmployeeDetails=(eId,eSalary,eDepartment)=>{
+//     this.setState(prevState => ({
+//       data:{
+//         ...prevState.data,
+//         id:eId,
+//         salary: eSalary,
+//         dept: eDepartment
 
-      }
-    }))
-  }
+//       }
+//     }))
+//   }
+//   render()
+//   {
+//     return <div>
+//       <h2>App component</h2>
+//       <p>
+//         <label>
+//           Id: {this.state.data.id}
+//         </label>
+//       </p>
+//       <p>
+//         <label>
+//           Salary: {this.state.data.salary}
+//         </label>
+//       </p>
+//       <p>
+//         <label>
+//           Department: {this.state.data.dept}
+//         </label>
+//       </p>
+//       <employeeContext.Provider value={this.state}>
+//         <Employee></Employee>
+//       </employeeContext.Provider>
+//     </div>
+//   }
+// } 
+
+// class Employee extends React.Component{
+//   static contextType=employeeContext;
+//   updateDetails=()=>{
+//     let eId=this.refs.eid.value;
+//     let eSalary=this.refs.eSal.value;
+//     let eDepartment=this.refs.eDept.value;
+//     this.context.changeEmployeeInfo(eId,eSalary,eDepartment);
+//   }
+//   clearHandler=() => {
+//     let eId="";
+//     let eSalary="";
+//     let eDepartment="";
+//     this.refs.eid.value="";
+//     this.refs.eSal.value='';
+//     this.refs.eDept.value='';
+//     this.context.changeEmployeeInfo(eId,eSalary,eDepartment);
+
+//   }
+//   render()
+//   {
+//     return <div>
+//       <h2>Employee component</h2>
+//       <p>
+//         <label>
+//           Id: {this.context.data.id}
+//         </label>
+//       </p>
+//       <p>
+//         <label>
+//           Salary: {this.context.data.salary}
+//         </label>
+//       </p>
+//       <p>
+//         <label>
+//           Department: {this.context.data.dept}
+//         </label>
+//       </p>
+//       <p>
+//         <label>
+//           Change Id: <input type='text' ref={"eid"} />
+//         </label>
+//       </p>
+//       <p>
+//         <label>
+//           Change Salary: <input type='text' ref={"eSal"} />
+//         </label>
+//       </p>
+//       <p>
+//         <label>
+//           Change Dept: <input type='text' ref={"eDept"} />
+//         </label>
+//       </p>
+//       <p>
+//         <button onClick={this.updateDetails}>
+//           Update
+//         </button>
+//         <button onClick={this.clearHandler}>Clear All</button>
+//       </p>
+//     </div>
+//   }
+// }
+
+// const element=<App></App>
+// ReactDOM.render(element,document.getElementById("root"))
+
+
+//CREATE A SIMPLE FORM USING FORMIK
+import { useFormik } from 'formik';
+import { render } from '@testing-library/react';
+const EmployeeComponent=()=>
+{
+  const formik=useFormik({
+    initialValues:{
+      Id:"",
+      Name:"",
+      Location:"",
+      Salary:""
+    },
+    onSubmit:values=>{
+      alert(JSON.stringify(values));
+    }
+  });
   render()
   {
     return <div>
-      <h2>App component</h2>
-      <p>
-        <label>
-          Id: {this.state.data.id}
-        </label>
-      </p>
-      <p>
-        <label>
-          Salary: {this.state.data.salary}
-        </label>
-      </p>
-      <p>
-        <label>
-          Department: {this.state.data.dept}
-        </label>
-      </p>
-      <employeeContext.Provider value={this.state}>
-        <Employee></Employee>
-      </employeeContext.Provider>
+      <h2>Employee Details</h2>
+      <form onSubmit={formik.handleSubmit}>
+        <p>
+          <label htmlFor='Id'>Employee Id:</label>
+          <input id='Id' name='Id' value={formik.values.Id} onChange={formik.handleChange}/>
+        </p>
+        <p>
+          <label htmlFor='Name'>Employee Name:</label>
+          <input id='Name' name='Name' value={formik.values.Name} onChange={formik.handleChange}/>
+        </p>
+        <p>
+          <label htmlFor='Location'>Employee Location:</label>
+          <input id='Location' name='Location' value={formik.values.Location} onChange={formik.handleChange}/>
+        </p>
+        <p>
+          <label htmlFor='Salary'>Employee Salary:</label>
+          <input id='Salary' name='Salary' value={formik.values.Salary} onChange={formik.handleChange}/>
+        </p>
+        <p>
+          <button type='submit'>Submit</button>
+        </p>
+      </form>
     </div>
   }
-} 
 
-class Employee extends React.Component{
-  static contextType=employeeContext;
-  updateDetails=()=>{
-    let eId=this.refs.eid.value;
-    let eSalary=this.refs.eSal.value;
-    let eDepartment=this.refs.eDept.value;
-    this.context.changeEmployeeInfo(eId,eSalary,eDepartment);
-  }
-  clearHandler=() => {
-    let eId="";
-    let eSalary="";
-    let eDepartment="";
-    this.refs.eid.value="";
-    this.refs.eSal.value='';
-    this.refs.eDept.value='';
-    this.context.changeEmployeeInfo(eId,eSalary,eDepartment);
-
-  }
-  render()
-  {
-    return <div>
-      <h2>Employee component</h2>
-      <p>
-        <label>
-          Id: {this.context.data.id}
-        </label>
-      </p>
-      <p>
-        <label>
-          Salary: {this.context.data.salary}
-        </label>
-      </p>
-      <p>
-        <label>
-          Department: {this.context.data.dept}
-        </label>
-      </p>
-      <p>
-        <label>
-          Change Id: <input type='text' ref={"eid"} />
-        </label>
-      </p>
-      <p>
-        <label>
-          Change Salary: <input type='text' ref={"eSal"} />
-        </label>
-      </p>
-      <p>
-        <label>
-          Change Dept: <input type='text' ref={"eDept"} />
-        </label>
-      </p>
-      <p>
-        <button onClick={this.updateDetails}>
-          Update
-        </button>
-        <button onClick={this.clearHandler}>Clear All</button>
-      </p>
-    </div>
-  }
 }
 
-const element=<App></App>
-ReactDOM.render(element,document.getElementById("root"))
+const element=<EmployeeComponent></EmployeeComponent>
+ReactDOM.render(element,document.getElementById("root"));
