@@ -514,5 +514,34 @@ class QuantityIncrement extends React.Component{
 
 }
 
-const element=<QuantityIncrement></QuantityIncrement>
+class LogInComponent extends React.Component{
+  constructor(props)
+  {
+    super(props);
+    this.userNameRef=React.createRef();
+  } 
+  componentDidMount(){
+    this.userNameRef.current.focus();
+  }
+  render(){
+    return <div>
+      <h2>Login!!</h2>
+      <p>
+        <label>
+          UserName : <input type='text' ref={this.userNameRef}/>
+        </label>
+      </p>
+      <p>
+        <label>
+          UserName : <input type='text'/>
+        </label>
+      </p>
+      <p>
+        <button>LogIn</button>
+      </p>
+    </div>
+  }
+}
+
+const element=<LogInComponent></LogInComponent>
 ReactDOM.render(element,document.getElementById('root'));
