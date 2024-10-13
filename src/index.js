@@ -322,50 +322,165 @@ import ReactDOM from 'react-dom';
 
 
 //CREATE A SIMPLE FORM USING FORMIK
-import { useFormik } from 'formik';
-import { render } from '@testing-library/react';
-const EmployeeComponent=()=>
-{
-  const formik=useFormik({
-    initialValues:{
-      Id:"",
-      Name:"",
-      Location:"",
-      Salary:""
-    },
-    onSubmit:values=>{
-      alert(JSON.stringify(values));
-    }
-  });
-  render()
-  {
-    return <div>
-      <h2>Employee Details</h2>
-      <form onSubmit={formik.handleSubmit}>
-        <p>
-          <label htmlFor='Id'>Employee Id:</label>
-          <input id='Id' name='Id' value={formik.values.Id} onChange={formik.handleChange}/>
-        </p>
-        <p>
-          <label htmlFor='Name'>Employee Name:</label>
-          <input id='Name' name='Name' value={formik.values.Name} onChange={formik.handleChange}/>
-        </p>
-        <p>
-          <label htmlFor='Location'>Employee Location:</label>
-          <input id='Location' name='Location' value={formik.values.Location} onChange={formik.handleChange}/>
-        </p>
-        <p>
-          <label htmlFor='Salary'>Employee Salary:</label>
-          <input id='Salary' name='Salary' value={formik.values.Salary} onChange={formik.handleChange}/>
-        </p>
-        <p>
-          <button type='submit'>Submit</button>
-        </p>
-      </form>
+// import { useFormik } from 'formik';
+// import { render } from '@testing-library/react';
+// const EmployeeComponent=()=>
+// {
+//   const formik=useFormik({
+//     initialValues:{
+//       Id:"",
+//       Name:"",
+//       Location:"",
+//       Salary:""
+//     },
+//     onSubmit:values=>{
+//       alert(JSON.stringify(values));
+//     }
+//   });
+//   render()
+//   {
+//     return <div>
+//       <h2>Employee Details</h2>
+//       <form onSubmit={formik.handleSubmit}>
+//         <p>
+//           <label htmlFor='Id'>Employee Id:</label>
+//           <input id='Id' name='Id' value={formik.values.Id} onChange={formik.handleChange}/>
+//         </p>
+//         <p>
+//           <label htmlFor='Name'>Employee Name:</label>
+//           <input id='Name' name='Name' value={formik.values.Name} onChange={formik.handleChange}/>
+//         </p>
+//         <p>
+//           <label htmlFor='Location'>Employee Location:</label>
+//           <input id='Location' name='Location' value={formik.values.Location} onChange={formik.handleChange}/>
+//         </p>
+//         <p>
+//           <label htmlFor='Salary'>Employee Salary:</label>
+//           <input id='Salary' name='Salary' value={formik.values.Salary} onChange={formik.handleChange}/>
+//         </p>
+//         <p>
+//           <button type='submit'>Submit</button>
+//         </p>
+//       </form>
+//     </div>
+//   }
+// }
+
+// const element=<EmployeeComponent></EmployeeComponent>
+// ReactDOM.render(element,document.getElementById("root"));
+
+//LIFTING STATE UP 
+class OrderComponent extends React.Component{
+  constructor(props){
+    super(props)
+
+    this.state={quantity:"",address:""}
+  }
+  orderInfoChange=val=>{
+    this.setState({quantity:val});
+  }
+  addressChange=val=>{
+    this.setState({address:val});
+  }
+  clearTheChange=()=>{
+    this.setState({address:"",quantity:""});
+  }
+  render(){
+    return <div style={{border:'3px solid black'}}>
+      <h2>Product Odrder Summary..</h2>
+      <ProductInformationComponent quantity={this.state.quantity}  onQuantityChange={this.orderInfoChange}></ProductInformationComponent>
+      <AddressComponent address={this.state.address} onAddressChange={this.addressChange}></AddressComponent>
+      <SummaryComponent quantity={this.state.quantity} address={this.state.address} onQuantityChange={this.orderInfoChange} 
+                        clearChange={this.clearTheChange} ></SummaryComponent>
+
+    </div>
+  }
+}
+class ProductInformationComponent extends React.Component{
+  constructor(props){
+    super(props)
+  }
+
+  handleChange =e=>{
+    this.props.onQuantityChange(e.target.value);
+  }
+  render(){
+    return(
+    <div style={{border:'3px solid black'}}>
+      <h2>Product Infromation</h2>
+      <p>
+        <label>
+          <select>
+            <option value={'product-1'}>Product-1</option>
+            <option value={'product-2'}>Product-2</option>
+            <option value={'product-3'}>Product-3</option>
+          </select>
+        </label>
+      </p>
+      <p>
+        <label>
+          Enter Quantity<input type='text' value={this.props.quantity} onChange={this.handleChange}></input>
+        </label>
+      </p>
+    </div>
+    )
+  }
+}
+class AddressComponent extends React.Component{
+  constructor(props){
+    super(props)
+  }
+  handleChange=e=>{
+    this.props.onAddressChange(e.target.value);
+  }
+  render(){
+    return <div style={{border:'3px solid black'}}>
+      <h2>Address Information...</h2>
+      <p>
+        <label>
+          Address : <textarea value={this.props.address} onChange={this.handleChange}></textarea>
+        </label>
+      </p>
     </div>
   }
 
+
+}
+class SummaryComponent extends React.Component{
+  constructor(props){
+    super(props)
+  }
+  handleChange=e=>{
+    this.props.onQuantityChange(e.target.value)
+  }
+  handleClear=()=>{
+    this.props.clearChange();
+  }
+  render(){
+    return <div style={{border:'3px solid black'}}>
+      <h2>Summary Component.. </h2>
+      <p>
+        <label>Product name : <b>Product - 1</b></label>
+      </p>
+      <p>
+        <label>
+          Enter Quantity<input type='text' value={this.props.quantity} onChange={this.handleChange}></input>
+        </label>
+      </p>
+      <p>
+        <label>
+          Address : <b>{this.props.address}</b>
+        </label>
+      </p>
+      <p>
+        <button>Place Order</button>
+        <button onClick={this.handleClear}>Clear</button>
+      </p>
+    </div>
+  }
 }
 
-const element=<EmployeeComponent></EmployeeComponent>
-ReactDOM.render(element,document.getElementById("root"));
+
+
+const element=<OrderComponent></OrderComponent>
+ReactDOM.render(element,document.getElementById("root"))
