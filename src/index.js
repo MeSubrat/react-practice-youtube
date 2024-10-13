@@ -370,117 +370,149 @@ import ReactDOM from 'react-dom';
 // ReactDOM.render(element,document.getElementById("root"));
 
 //LIFTING STATE UP 
-class OrderComponent extends React.Component{
-  constructor(props){
-    super(props)
+// class OrderComponent extends React.Component{
+//   constructor(props){
+//     super(props)
 
-    this.state={quantity:"",address:""}
-  }
-  orderInfoChange=val=>{
-    this.setState({quantity:val});
-  }
-  addressChange=val=>{
-    this.setState({address:val});
-  }
-  clearTheChange=()=>{
-    this.setState({address:"",quantity:""});
-  }
-  render(){
-    return <div style={{border:'3px solid black'}}>
-      <h2>Product Odrder Summary..</h2>
-      <ProductInformationComponent quantity={this.state.quantity}  onQuantityChange={this.orderInfoChange}></ProductInformationComponent>
-      <AddressComponent address={this.state.address} onAddressChange={this.addressChange}></AddressComponent>
-      <SummaryComponent quantity={this.state.quantity} address={this.state.address} onQuantityChange={this.orderInfoChange} 
-                        clearChange={this.clearTheChange} ></SummaryComponent>
+//     this.state={quantity:"",address:""}
+//   }
+//   orderInfoChange=val=>{
+//     this.setState({quantity:val});
+//   }
+//   addressChange=val=>{
+//     this.setState({address:val});
+//   }
+//   clearTheChange=()=>{
+//     this.setState({address:"",quantity:""});
+//   }
+//   render(){
+//     return <div style={{border:'3px solid black'}}>
+//       <h2>Product Odrder Summary..</h2>
+//       <ProductInformationComponent quantity={this.state.quantity}  onQuantityChange={this.orderInfoChange}></ProductInformationComponent>
+//       <AddressComponent address={this.state.address} onAddressChange={this.addressChange}></AddressComponent>
+//       <SummaryComponent quantity={this.state.quantity} address={this.state.address} onQuantityChange={this.orderInfoChange} 
+//                         clearChange={this.clearTheChange} ></SummaryComponent>
 
-    </div>
-  }
-}
-class ProductInformationComponent extends React.Component{
-  constructor(props){
-    super(props)
-  }
+//     </div>
+//   }
+// }
+// class ProductInformationComponent extends React.Component{
+//   constructor(props){
+//     super(props)
+//   }
 
-  handleChange =e=>{
-    this.props.onQuantityChange(e.target.value);
+//   handleChange =e=>{
+//     this.props.onQuantityChange(e.target.value);
+//   }
+//   render(){
+//     return(
+//     <div style={{border:'3px solid black'}}>
+//       <h2>Product Infromation</h2>
+//       <p>
+//         <label>
+//           <select>
+//             <option value={'product-1'}>Product-1</option>
+//             <option value={'product-2'}>Product-2</option>
+//             <option value={'product-3'}>Product-3</option>
+//           </select>
+//         </label>
+//       </p>
+//       <p>
+//         <label>
+//           Enter Quantity<input type='text' value={this.props.quantity} onChange={this.handleChange}></input>
+//         </label>
+//       </p>
+//     </div>
+//     )
+//   }
+// }
+// class AddressComponent extends React.Component{
+//   constructor(props){
+//     super(props)
+//   }
+//   handleChange=e=>{
+//     this.props.onAddressChange(e.target.value);
+//   }
+//   render(){
+//     return <div style={{border:'3px solid black'}}>
+//       <h2>Address Information...</h2>
+//       <p>
+//         <label>
+//           Address : <textarea value={this.props.address} onChange={this.handleChange}></textarea>
+//         </label>
+//       </p>
+//     </div>
+//   }
+
+
+// }
+// class SummaryComponent extends React.Component{
+//   constructor(props){
+//     super(props)
+//   }
+//   handleChange=e=>{
+//     this.props.onQuantityChange(e.target.value)
+//   }
+//   handleClear=()=>{
+//     this.props.clearChange();
+//   }
+//   render(){
+//     return <div style={{border:'3px solid black'}}>
+//       <h2>Summary Component.. </h2>
+//       <p>
+//         <label>Product name : <b>Product - 1</b></label>
+//       </p>
+//       <p>
+//         <label>
+//           Enter Quantity<input type='text' value={this.props.quantity} onChange={this.handleChange}></input>
+//         </label>
+//       </p>
+//       <p>
+//         <label>
+//           Address : <b>{this.props.address}</b>
+//         </label>
+//       </p>
+//       <p>
+//         <button>Place Order</button>
+//         <button onClick={this.handleClear}>Clear</button>
+//       </p>
+//     </div>
+//   }
+// }
+
+
+
+// const element=<OrderComponent></OrderComponent>
+// ReactDOM.render(element,document.getElementById("root"))
+
+
+//REFS IN REACT 
+class QuantityIncrement extends React.Component{
+  constructor(props)
+  {
+    super(props);
+    this.quantityRef=React.createRef();
   }
-  render(){
-    return(
-    <div style={{border:'3px solid black'}}>
-      <h2>Product Infromation</h2>
+  incrementQuantity=()=>{
+    this.quantityRef.current.value++;
+  }
+  decrementQuantity=()=>{
+    this.quantityRef.current.value--;
+  }
+  render()
+  {
+    alert("Enter the quantity value...");
+    return( 
+    <div>
       <p>
-        <label>
-          <select>
-            <option value={'product-1'}>Product-1</option>
-            <option value={'product-2'}>Product-2</option>
-            <option value={'product-3'}>Product-3</option>
-          </select>
-        </label>
+        <label>Enter quantity: <button onClick={this.decrementQuantity}>-</button><input type='text' ref={this.quantityRef}/><button onClick={this.incrementQuantity}>+</button></label>
       </p>
-      <p>
-        <label>
-          Enter Quantity<input type='text' value={this.props.quantity} onChange={this.handleChange}></input>
-        </label>
-      </p>
+
     </div>
     )
   }
-}
-class AddressComponent extends React.Component{
-  constructor(props){
-    super(props)
-  }
-  handleChange=e=>{
-    this.props.onAddressChange(e.target.value);
-  }
-  render(){
-    return <div style={{border:'3px solid black'}}>
-      <h2>Address Information...</h2>
-      <p>
-        <label>
-          Address : <textarea value={this.props.address} onChange={this.handleChange}></textarea>
-        </label>
-      </p>
-    </div>
-  }
-
 
 }
-class SummaryComponent extends React.Component{
-  constructor(props){
-    super(props)
-  }
-  handleChange=e=>{
-    this.props.onQuantityChange(e.target.value)
-  }
-  handleClear=()=>{
-    this.props.clearChange();
-  }
-  render(){
-    return <div style={{border:'3px solid black'}}>
-      <h2>Summary Component.. </h2>
-      <p>
-        <label>Product name : <b>Product - 1</b></label>
-      </p>
-      <p>
-        <label>
-          Enter Quantity<input type='text' value={this.props.quantity} onChange={this.handleChange}></input>
-        </label>
-      </p>
-      <p>
-        <label>
-          Address : <b>{this.props.address}</b>
-        </label>
-      </p>
-      <p>
-        <button>Place Order</button>
-        <button onClick={this.handleClear}>Clear</button>
-      </p>
-    </div>
-  }
-}
 
-
-
-const element=<OrderComponent></OrderComponent>
-ReactDOM.render(element,document.getElementById("root"))
+const element=<QuantityIncrement></QuantityIncrement>
+ReactDOM.render(element,document.getElementById('root'));
