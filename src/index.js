@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import video from '../src/assets/Video1.mp4'
 
 // class Employee extends React.Component{
 //   state={counter:0};
@@ -487,61 +488,88 @@ import ReactDOM from 'react-dom';
 
 
 //REFS IN REACT 
-class QuantityIncrement extends React.Component{
-  constructor(props)
-  {
+// class QuantityIncrement extends React.Component{
+//   constructor(props)
+//   {
+//     super(props);
+//     this.quantityRef=React.createRef();
+//   }
+//   incrementQuantity=()=>{
+//     this.quantityRef.current.value++;
+//   }
+//   decrementQuantity=()=>{
+//     this.quantityRef.current.value--;
+//   }
+//   render()
+//   {
+//     alert("Enter the quantity value...");
+//     return( 
+//     <div>
+//       <p>
+//         <label>Enter quantity: <button onClick={this.decrementQuantity}>-</button><input type='text' ref={this.quantityRef}/><button onClick={this.incrementQuantity}>+</button></label>
+//       </p>
+
+//     </div>
+//     )
+//   }
+
+// }
+
+// class LogInComponent extends React.Component{
+//   constructor(props)
+//   {
+//     super(props);
+//     this.userNameRef=React.createRef();
+//   } 
+//   componentDidMount(){
+//     this.userNameRef.current.focus();
+//   }
+//   render(){
+//     return <div>
+//       <h2>Login!!</h2>
+//       <p>
+//         <label>
+//           UserName : <input type='text' ref={this.userNameRef}/>
+//         </label>
+//       </p>
+//       <p>
+//         <label>
+//           UserName : <input type='text'/>
+//         </label>
+//       </p>
+//       <p>
+//         <button>LogIn</button>
+//       </p>
+//     </div>
+//   }
+// }
+
+
+class VideoPlayer extends React.Component{
+  constructor(props){
     super(props);
-    this.quantityRef=React.createRef();
-  }
-  incrementQuantity=()=>{
-    this.quantityRef.current.value++;
-  }
-  decrementQuantity=()=>{
-    this.quantityRef.current.value--;
-  }
-  render()
-  {
-    alert("Enter the quantity value...");
-    return( 
-    <div>
-      <p>
-        <label>Enter quantity: <button onClick={this.decrementQuantity}>-</button><input type='text' ref={this.quantityRef}/><button onClick={this.incrementQuantity}>+</button></label>
-      </p>
 
-    </div>
-    )
+    this.videoRef=React.createRef();
+  }
+  playVideo=()=>{
+    this.videoRef.current.play();
+  }
+  pauseVideo =()=>{
+    this.videoRef.current.pause();
   }
 
-}
-
-class LogInComponent extends React.Component{
-  constructor(props)
-  {
-    super(props);
-    this.userNameRef=React.createRef();
-  } 
-  componentDidMount(){
-    this.userNameRef.current.focus();
-  }
   render(){
     return <div>
-      <h2>Login!!</h2>
+      <video ref={this.videoRef} height={'300'} width={'200'} controls>
+        <source  src={video} type='video/mp4'></source>
+      </video>
       <p>
-        <label>
-          UserName : <input type='text' ref={this.userNameRef}/>
-        </label>
-      </p>
-      <p>
-        <label>
-          UserName : <input type='text'/>
-        </label>
-      </p>
-      <p>
-        <button>LogIn</button>
+        <button onClick={this.playVideo}>Play</button>
+        <button onClick={this.pauseVideo}>Pause</button>
       </p>
     </div>
   }
 }
 
-const element=<LogInComponent></LogInComponent>
+const element=<VideoPlayer></VideoPlayer>
 ReactDOM.render(element,document.getElementById('root'));
