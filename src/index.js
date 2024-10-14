@@ -545,31 +545,84 @@ import video from '../src/assets/Video1.mp4'
 // }
 
 
-class VideoPlayer extends React.Component{
-  constructor(props){
-    super(props);
+// class VideoPlayer extends React.Component{
+//   constructor(props){
+//     super(props);
 
-    this.videoRef=React.createRef();
-  }
-  playVideo=()=>{
-    this.videoRef.current.play();
-  }
-  pauseVideo =()=>{
-    this.videoRef.current.pause();
+//     this.videoRef=React.createRef();
+//   }
+//   playVideo=()=>{
+//     this.videoRef.current.play();
+//   }
+//   pauseVideo =()=>{
+//     this.videoRef.current.pause();
+//   }
+
+//   render(){
+//     return <div>
+//       <video ref={this.videoRef} height={'300'} width={'200'} controls>
+//         <source  src={video} type='video/mp4'></source>
+//       </video>
+//       <p>
+//         <button onClick={this.playVideo}>Play</button>
+//         <button onClick={this.pauseVideo}>Pause</button>
+//       </p>
+//     </div>
+//   }
+// }
+
+// const element=<VideoPlayer></VideoPlayer>
+// ReactDOM.render(element,document.getElementById('root'));
+
+
+class Elevator extends React.Component{
+  constructor(props)
+  {
+    super(props);
+    this.elevatorRef=React.createRef();
   }
 
   render(){
     return <div>
-      <video ref={this.videoRef} height={'300'} width={'200'} controls>
-        <source  src={video} type='video/mp4'></source>
-      </video>
+      <h2>Elevator Component</h2>
       <p>
-        <button onClick={this.playVideo}>Play</button>
-        <button onClick={this.pauseVideo}>Pause</button>
+        <label>Elevator Name:  <input type='text'  /></label>
       </p>
+      <p>
+        <label>Elevator Speed: <input type='text'  /></label>
+      </p>
+      <p>
+        <label>Elevator Load: <input type='text'  /></label>
+      </p>
+      <Summary innerRef={this.elevatorRef}></Summary>
     </div>
   }
 }
 
-const element=<VideoPlayer></VideoPlayer>
+
+class Summary extends React.Component{
+  constructor(props)
+  {
+    super(props);
+  }
+  focusInput=()=>{
+    this.props.innerRef.current.focus();
+  }
+  render()
+  {
+    return <div>
+      <h2>Summary Component</h2>
+      <p onClick={this.focusInput}>
+        <label>Elevator Name : <b>Name-1</b></label>
+      </p>
+      <p>
+        <label>Elevator Speed : <b>10 m/s</b></label>
+      </p>
+      <p>
+        <label>Elevator Load : <b>840 kg</b></label>
+      </p>
+    </div>
+  }
+}
+const element=<Elevator></Elevator>
 ReactDOM.render(element,document.getElementById('root'));
