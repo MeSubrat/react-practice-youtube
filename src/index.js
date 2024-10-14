@@ -634,81 +634,81 @@ import video from '../src/assets/Video1.mp4'
 
 
 
-// function testComponent(){
-//   let testRef=null;
+function testComponent(){
+  let testRef=null;
+  function handleClick(){
+    testRef.focus();
+  }
+
+  return <div>
+    <p>
+      <input type='text' ref={e=>testRef=e}/><button onClick={handleClick}>Focus on input field</button>
+    </p>
+  </div>
+}
+
+const element=testComponent();
+ReactDOM.render(element,document.getElementById('root'));
+
+
+// const Demo = React.forwardRef((props,ref)=>{
 //   function handleClick(){
-//     testRef.focus();
+//     ref.current.focus();
+//   }
+//   return <div>
+//     <button onClick={handleClick}>click</button>
+//   </div>
+// })
+
+// class Elevator extends React.Component{
+//   constructor(props)
+//   {
+//     super(props);
+//     this.elevatorRef=React.createRef();
 //   }
 
-//   return <div>
-//     <p>
-//       <input type='text' ref={e=>testRef=e}/><button onClick={handleClick}>Focus on input field</button>
-//     </p>
-//   </div>
+//   render(){
+//     return <div>
+//       <h2>Elevator Component</h2>
+//       <p>
+//         <label>Elevator Name:  <input type='text' ref={this.elevatorRef} /></label>
+//       </p>
+//       <p>
+//         <label>Elevator Speed: <input type='text'  /></label>
+//       </p>
+//       <p>
+//         <label>Elevator Load: <input type='text'  /></label>
+//       </p>
+//       <Summary innerRef={this.elevatorRef}></Summary>
+//       <Demo ref={this.elevatorRef}></Demo>
+//     </div>
+//   }
 // }
 
-// const element=testComponent();
+
+// class Summary extends React.Component{
+//   constructor(props)
+//   {
+//     super(props);
+//   }
+//   focusInput=()=>{
+//     this.props.innerRef.current.focus();
+//   }
+//   render()
+//   {
+//     return <div>
+//       <h2>Summary Component</h2>
+//       <p onClick={this.focusInput}>
+//         <label>Elevator Name : <b>Name-1</b></label>
+//       </p>
+//       <p>
+//         <label>Elevator Speed : <b>10 m/s</b></label>
+//       </p>
+//       <p>
+//         <label>Elevator Load : <b>840 kg</b></label>
+//       </p>
+//     </div>
+//   }
+// }
+// const element=<Elevator></Elevator>
 // ReactDOM.render(element,document.getElementById('root'));
-
-
-const Demo = React.forwardRef((props,ref)=>{
-  function handleClick(){
-    ref.current.focus();
-  }
-  return <div>
-    <button onClick={handleClick}>click</button>
-  </div>
-})
-
-class Elevator extends React.Component{
-  constructor(props)
-  {
-    super(props);
-    this.elevatorRef=React.createRef();
-  }
-
-  render(){
-    return <div>
-      <h2>Elevator Component</h2>
-      <p>
-        <label>Elevator Name:  <input type='text' ref={this.elevatorRef} /></label>
-      </p>
-      <p>
-        <label>Elevator Speed: <input type='text'  /></label>
-      </p>
-      <p>
-        <label>Elevator Load: <input type='text'  /></label>
-      </p>
-      <Summary innerRef={this.elevatorRef}></Summary>
-      <Demo ref={this.elevatorRef}></Demo>
-    </div>
-  }
-}
-
-
-class Summary extends React.Component{
-  constructor(props)
-  {
-    super(props);
-  }
-  focusInput=()=>{
-    this.props.innerRef.current.focus();
-  }
-  render()
-  {
-    return <div>
-      <h2>Summary Component</h2>
-      <p onClick={this.focusInput}>
-        <label>Elevator Name : <b>Name-1</b></label>
-      </p>
-      <p>
-        <label>Elevator Speed : <b>10 m/s</b></label>
-      </p>
-      <p>
-        <label>Elevator Load : <b>840 kg</b></label>
-      </p>
-    </div>
-  }
-}
-const element=<Elevator></Elevator>
-ReactDOM.render(element,document.getElementById('root'));
