@@ -579,22 +579,27 @@ class Elevator extends React.Component{
   constructor(props)
   {
     super(props);
-    this.elevatorRef=React.createRef();
+    // this.elevatorRef=React.createRef();
+    this.nameRef=React.createRef();
+    this.speedRef=React.createRef();
+    this.loadRef=React.createRef();
   }
 
   render(){
     return <div>
       <h2>Elevator Component</h2>
       <p>
-        <label>Elevator Name:  <input type='text'  /></label>
+        <label>Elevator Name:  <input type='text' ref={this.nameRef} /></label>
       </p>
       <p>
-        <label>Elevator Speed: <input type='text'  /></label>
+        <label>Elevator Speed: <input type='text' ref={this.speedRef} /></label>
       </p>
       <p>
-        <label>Elevator Load: <input type='text'  /></label>
+        <label>Elevator Load: <input type='text' ref={this.loadRef} /></label>
       </p>
-      <Summary innerRef={this.elevatorRef}></Summary>
+      <Summary  nameRef={this.nameRef}
+                speedRef={this.speedRef}
+                loadRef={this.loadRef}></Summary>
     </div>
   }
 }
@@ -605,20 +610,20 @@ class Summary extends React.Component{
   {
     super(props);
   }
-  focusInput=()=>{
-    this.props.innerRef.current.focus();
+  focusInput =(inputRef)=>{
+    inputRef.current.focus();
   }
   render()
   {
     return <div>
       <h2>Summary Component</h2>
-      <p onClick={this.focusInput}>
+      <p onClick={()=>this.focusInput(this.props.nameRef)}>
         <label>Elevator Name : <b>Name-1</b></label>
       </p>
-      <p>
+      <p onClick={()=>this.focusInput(this.props.speedRef)}>
         <label>Elevator Speed : <b>10 m/s</b></label>
       </p>
-      <p>
+      <p onClick={()=>this.focusInput(this.props.loadRef)}>
         <label>Elevator Load : <b>840 kg</b></label>
       </p>
     </div>
