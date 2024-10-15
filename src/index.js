@@ -634,21 +634,21 @@ import video from '../src/assets/Video1.mp4'
 
 
 
-function testComponent(){
-  let testRef=null;
-  function handleClick(){
-    testRef.focus();
-  }
+// function testComponent(){
+//   let testRef=null;
+//   function handleClick(){
+//     testRef.focus();
+//   }
 
-  return <div>
-    <p>
-      <input type='text' ref={e=>testRef=e}/><button onClick={handleClick}>Focus on input field</button>
-    </p>
-  </div>
-}
+//   return <div>
+//     <p>
+//       <input type='text' ref={e=>testRef=e}/><button onClick={handleClick}>Focus on input field</button>
+//     </p>
+//   </div>
+// }
 
-const element=testComponent();
-ReactDOM.render(element,document.getElementById('root'));
+// const element=testComponent();
+// ReactDOM.render(element,document.getElementById('root'));
 
 
 // const Demo = React.forwardRef((props,ref)=>{
@@ -712,3 +712,25 @@ ReactDOM.render(element,document.getElementById('root'));
 // }
 // const element=<Elevator></Elevator>
 // ReactDOM.render(element,document.getElementById('root'));
+
+class Demo extends React.Component{
+  constructor(props){
+    super(props);
+    this.state={
+      len:0
+    };
+  }
+  handleChange=(e)=>{
+    this.setState({len:e.target.value})
+  }
+  render(){
+    return <div>
+      <label>
+        <input type="range" value={this.state.len} onChange={this.handleChange}
+        />Length: {this.state.len}
+      </label>
+    </div>
+  }
+}
+const element=<Demo></Demo>
+ReactDOM.render(element,document.getElementById('root'))
