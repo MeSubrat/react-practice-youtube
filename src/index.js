@@ -808,13 +808,81 @@ import video from '../src/assets/Video1.mp4'
 
    
 //useContext hook for functions in react
+// const employeeContext = React.createContext();
+// function App(){
+//     const [employee,setEmployee]=useState({Id:'101',Name:'Subrat',Location:'Bangalore',Salary:'12345'});
+
+//     return <div>
+//         <h2>App component</h2>
+//         <employeeContext.Provider value={employee}>
+//             <Employee></Employee>
+//         </employeeContext.Provider>
+        
+//     </div>
+// }
+
+// function Employee()
+// {
+//     const empContext=useContext(employeeContext);
+//     return <div>
+//         <h2>Employee Component</h2>
+//         <p>
+//             <label>
+//                 Employee Name: {empContext.Name}
+//             </label>
+//         </p>
+//         <p>
+//             <label>
+//                 Employee Id: {empContext.Id}
+//             </label>
+//         </p>
+//         <p>
+//             <label>
+//                 Employee Location: {empContext.Location}
+//             </label>
+//         </p>
+//         <p>
+//             <label>
+//                 Employee Salary: {empContext.Salary}
+//             </label>
+//         </p>
+//         <Salary></Salary>
+//     </div>
+// }
+
+// function Salary(){
+//     const salComponentContext=useContext(employeeContext)
+//     return <div>
+//         <h2>Salary Component</h2>
+//         <p>
+//             <label>
+//                 Employee Id : <b>{salComponentContext.Id}</b>
+//             </label>
+//         </p>
+//         <p>
+//             <label>
+//                 Employee Salary : <b>{salComponentContext.Salary}</b>
+//             </label>
+//         </p>
+//     </div>
+// }
+
+// const element=<App></App>
+// ReactDOM.render(element,document.getElementById('root'));
+
+//Context Consumer in React
 const employeeContext = React.createContext();
 function App(){
-    const [employee,setEmployee]=useState({Id:'101',Name:'Subrat',Location:'Bangalore',Salary:'12345'});
+    const [employee,setEmployee]=useState({Id:'101',Name:'Subrat',Location:'Bangalore',Salary:'12345',employeeType:'Contractual'});
 
     return <div>
         <h2>App component</h2>
-        <employeeContext.Provider value={employee}>
+        <p>
+            <label>
+                Salary: <b>{employee.Salary}</b>
+            </label>
+        </p>
+        <employeeContext.Provider value={{data:employee,updateEmployee:setEmployee}}>
             <Employee></Employee>
         </employeeContext.Provider>
         
@@ -824,50 +892,84 @@ function App(){
 function Employee()
 {
     const empContext=useContext(employeeContext);
+    function changeEmployeeType()
+    {
+        empContext.updateEmployee({...empContext.data,
+            employeeType:empContext.data.employeeType==='Contractual'?'Permanent':'Contractual'
+        })
+    }
+
     return <div>
         <h2>Employee Component</h2>
         <p>
             <label>
-                Employee Name: {empContext.Name}
+                Employee Name: {empContext.data.Name}
             </label>
         </p>
         <p>
             <label>
-                Employee Id: {empContext.Id}
+                Employee Id: {empContext.data.Id}
             </label>
         </p>
         <p>
             <label>
-                Employee Location: {empContext.Location}
+                Employee Location: {empContext.data.Location}
             </label>
         </p>
         <p>
             <label>
-                Employee Salary: {empContext.Salary}
+                Employee Salary: {empContext.data.Salary}
             </label>
         </p>
+        
+        <employeeContext.Consumer>
+            {value=>value.data.employeeType==='Contractual'?<Contract></Contract>:<Permanent></Permanent>}
+        </employeeContext.Consumer>
+        <button onClick={changeEmployeeType}>changeEmployeeInfo</button>
+        
         <Salary></Salary>
     </div>
 }
 
 function Salary(){
+    const [Sal,setSalary]=useState('');
     const salComponentContext=useContext(employeeContext)
+    function updateSalary(){
+        salComponentContext.updateEmployee({...salComponentContext.data,Salary:Sal});
+    }
     return <div>
         <h2>Salary Component</h2>
         <p>
             <label>
-                Employee Id : <b>{salComponentContext.Id}</b>
+                Employee Id : <b>{salComponentContext.data.Id}</b>
             </label>
         </p>
         <p>
             <label>
-                Employee Salary : <b>{salComponentContext.Salary}</b>
+                Employee Salary : <b>{salComponentContext.data.Salary}</b>
             </label>
         </p>
+        <p>
+            <label>Enter new Salary: <input  type='text' onChange={e=>setSalary(e.target.value)}/></label>
+        </p>
+        <button onClick={updateSalary}>Update Salary</button>
+    </div>
+}
+
+function Permanent(){
+    return <div>
+        <h2>
+            Permanent Component
+        </h2>
+    </div>
+}
+function Contract(){
+    return <div>
+        <h2>
+            Contract Contract
+        </h2>
     </div>
 }
 
 const element=<App></App>
 ReactDOM.render(element,document.getElementById('root'));
-
-
