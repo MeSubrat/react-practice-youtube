@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import ReactDOM from 'react-dom';
 import video from '../src/assets/Video1.mp4'
 
@@ -713,24 +713,161 @@ import video from '../src/assets/Video1.mp4'
 // const element=<Elevator></Elevator>
 // ReactDOM.render(element,document.getElementById('root'));
 
-class Demo extends React.Component{
-  constructor(props){
-    super(props);
-    this.state={
-      len:0
-    };
-  }
-  handleChange=(e)=>{
-    this.setState({len:e.target.value})
-  }
-  render(){
+// class Demo extends React.Component{
+//   constructor(props){
+//     super(props);
+//     this.state={
+//       len:0
+//     };
+//   }
+//   handleChange=(e)=>{
+//     this.setState({len:e.target.value})
+//   }
+//   render(){
+//     return <div>
+//       <label>
+//         <input type="range" value={this.state.len} onChange={this.handleChange}
+//         />Length: {this.state.len}
+//       </label>
+//     </div>
+//   }
+// }
+// const element=<Demo></Demo>
+// ReactDOM.render(element,document.getElementById('root'))
+
+
+//RENDER PROPS IN REACT
+// class Display extends React.Component{
+//   constructor(props)
+//   {
+//     super(props)
+//   }
+
+//   render()
+//   {
+//     return(
+//       <ul>
+//         {this.props.list.map(e=>(<li>{e}</li>))}
+//       </ul>
+//     )
+    
+
+//   }
+// }
+
+// class Department extends React.Component{
+//   constructor(props)
+//   {
+//     super(props)
+//     this.state={
+//       list:['Dev','Big Data','Mobility']
+//     }
+//   }
+
+//   render(){
+//     return <div>
+//       <h2>Department List</h2>
+//       {this.props.content(this.state.list)}
+//     </div>
+//   }
+// }
+
+// class Projects extends React.Component{
+//   constructor(props)
+//   {
+//     super(props)
+//   }
+
+//   render(){
+//     return <div>
+//       <div>
+//         <h2>Project Lists</h2>
+//         {this.props.content(this.props.list)}
+//     </div>
+//     </div>
+//   }
+// }
+
+// class App extends React.Component{
+//   constructor(props)
+//   {
+//     super(props)
+//   }
+
+//   render(){
+//     return <>
+//       <Department content={(data)=><Display list={data}></Display>}>
+//       </Department>
+//       <Projects content={(data)=><Display list={['P-1','P-2','P-3']}></Display>}></Projects>
+//     </>
+//   }
+// }
+
+// const element=<App></App>
+// ReactDOM.render(element,document.getElementById("root"))
+
+   
+//useContext hook for functions in react
+const employeeContext = React.createContext();
+function App(){
+    const [employee,setEmployee]=useState({Id:'101',Name:'Subrat',Location:'Bangalore',Salary:'12345'});
+
     return <div>
-      <label>
-        <input type="range" value={this.state.len} onChange={this.handleChange}
-        />Length: {this.state.len}
-      </label>
+        <h2>App component</h2>
+        <employeeContext.Provider value={employee}>
+            <Employee></Employee>
+        </employeeContext.Provider>
+        
     </div>
-  }
 }
-const element=<Demo></Demo>
-ReactDOM.render(element,document.getElementById('root'))
+
+function Employee()
+{
+    const empContext=useContext(employeeContext);
+    return <div>
+        <h2>Employee Component</h2>
+        <p>
+            <label>
+                Employee Name: {empContext.Name}
+            </label>
+        </p>
+        <p>
+            <label>
+                Employee Id: {empContext.Id}
+            </label>
+        </p>
+        <p>
+            <label>
+                Employee Location: {empContext.Location}
+            </label>
+        </p>
+        <p>
+            <label>
+                Employee Salary: {empContext.Salary}
+            </label>
+        </p>
+        <Salary></Salary>
+    </div>
+}
+
+function Salary(){
+    const salComponentContext=useContext(employeeContext)
+    return <div>
+        <h2>Salary Component</h2>
+        <p>
+            <label>
+                Employee Id : <b>{salComponentContext.Id}</b>
+            </label>
+        </p>
+        <p>
+            <label>
+                Employee Salary : <b>{salComponentContext.Salary}</b>
+            </label>
+        </p>
+    </div>
+}
+
+const element=<App></App>
+ReactDOM.render(element,document.getElementById('root'));
+
+
